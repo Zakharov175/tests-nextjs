@@ -1,11 +1,8 @@
-import {
-  InvalidTodo,
-  makeValidatedTodo,
-  ValidTodo,
-} from "./make-validated-todo";
+import { makeValidatedTodo } from "./make-validated-todo";
 import * as sanitizerStrMod from "@/utils/sanitize-str";
 import * as makeNewTodoMod from "./make-new-todo";
 import * as makeValidatedTodoMod from "../schemas/validate-todo-description";
+import { InvalidTodo, ValidTodo } from "../schemas/todo.contract";
 
 describe("make ValidatedTodo function (tests units)", () => {
   const makeMocks = (description = "description") => {
@@ -66,18 +63,18 @@ describe("make ValidatedTodo function (tests units)", () => {
     expect(result.success).toBe(true);
     //some options for
 
-    expect(result.data).toStrictEqual(
+    expect(result.todo).toStrictEqual(
       expect.objectContaining({
         description: "description",
         id: "any-id",
       })
     );
-    expect(result.data).toStrictEqual({
+    expect(result.todo).toStrictEqual({
       id: "any-id",
       description: "description",
       createdAt: expect.any(String),
     });
-    expect(result.data.createdAt).toMatch(
+    expect(result.todo.createdAt).toMatch(
       /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.\d{3}Z$/
     );
   });

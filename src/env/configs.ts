@@ -40,7 +40,6 @@ function isValidEnv(env: string): env is AllowedEnvKeys {
 
 export function checkEnv(): AllowedEnvKeys {
   const currentEnv = process.env.CURRENT_ENV;
-
   if (!currentEnv || !isValidEnv(currentEnv)) {
     throw new Error("Verifique os .env* e os valores em src/env/configs.ts");
   }
