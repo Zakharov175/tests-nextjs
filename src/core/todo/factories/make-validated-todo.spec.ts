@@ -7,7 +7,7 @@ import * as sanitizerStrMod from "@/utils/sanitize-str";
 import * as makeNewTodoMod from "./make-new-todo";
 import * as makeValidatedTodoMod from "../schemas/validate-todo-description";
 
-describe("mekeValidatedTodo functiont (tests units)", () => {
+describe("make ValidatedTodo function (tests units)", () => {
   const makeMocks = (description = "description") => {
     const todo = {
       id: "any-id",
@@ -41,7 +41,7 @@ describe("mekeValidatedTodo functiont (tests units)", () => {
   };
 
   test("should call function sanitizerStr with correct value", () => {
-    //that way the test is not a dont be unit test, since other functions are being called
+    //that way the test is not a don't be unit test, since other functions are being called
     // const description = "abdc";
     // const sanitizeStrSpy = vi.spyOn(sanitizerStrMod, "sanitizeStr");
     //important to use mockReturnValue and when a promise use mockResolvedValue or mockedRejectValue
