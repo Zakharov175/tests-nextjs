@@ -1,30 +1,30 @@
-import { makeValidatedTodo } from "./make-validated-todo";
-import * as sanitizerStrMod from "@/utils/sanitize-str";
-import * as makeNewTodoMod from "./make-new-todo";
-import * as makeValidatedTodoMod from "../schemas/validate-todo-description";
-import { InvalidTodo, ValidTodo } from "../schemas/todo.contract";
+import { makeValidatedTodo } from './make-validated-todo';
+import * as sanitizerStrMod from '@/utils/sanitize-str';
+import * as makeNewTodoMod from './make-new-todo';
+import * as makeValidatedTodoMod from '../schemas/validate-todo-description';
+import { InvalidTodo, ValidTodo } from '../schemas/todo.contract';
 
-describe("make ValidatedTodo function (tests units)", () => {
-  const makeMocks = (description = "description") => {
+describe('make ValidatedTodo function (tests units)', () => {
+  const makeMocks = (description = 'description') => {
     const todo = {
-      id: "any-id",
+      id: 'any-id',
       description,
       createdAt: new Date().toISOString(),
     };
 
     const sanitizeStrSpy = vi
-      .spyOn(sanitizerStrMod, "sanitizeStr")
+      .spyOn(sanitizerStrMod, 'sanitizeStr')
       .mockReturnValue(description);
 
     const validateTodoDescriptionSpy = vi
-      .spyOn(makeValidatedTodoMod, "validateTodoDescription")
+      .spyOn(makeValidatedTodoMod, 'validateTodoDescription')
       .mockReturnValue({
         errors: [],
         success: true,
       });
 
     const makeNewTodoSpy = vi
-      .spyOn(makeNewTodoMod, "makeNewTodo")
+      .spyOn(makeNewTodoMod, 'makeNewTodo')
       .mockReturnValue(todo);
 
     return {
@@ -33,11 +33,11 @@ describe("make ValidatedTodo function (tests units)", () => {
       validateTodoDescriptionSpy,
       makeNewTodoSpy,
       todo,
-      errors: ["any", "error"],
+      errors: ['any', 'error'],
     };
   };
 
-  test("should call function sanitizerStr with correct value", () => {
+  test('should call function sanitizerStr with correct value', () => {
     //that way the test is not a don't be unit test, since other functions are being called
     // const description = "abdc";
     // const sanitizeStrSpy = vi.spyOn(sanitizerStrMod, "sanitizeStr");
@@ -49,15 +49,15 @@ describe("make ValidatedTodo function (tests units)", () => {
     expect(sanitizeStrSpy).toHaveBeenCalledWith(description);
   });
 
-  test("should call function validateTodoDescription with return of sanitizerStre", () => {
+  test('should call function validateTodoDescription with return of sanitizerStr', () => {
     const { description, sanitizeStrSpy, validateTodoDescriptionSpy } =
       makeMocks();
-    const sanitizeStrReturn = "return sanitizeStr";
+    const sanitizeStrReturn = 'return sanitizeStr';
     sanitizeStrSpy.mockReturnValue(sanitizeStrReturn);
     const result = makeValidatedTodo(description) as ValidTodo;
 
     expect(validateTodoDescriptionSpy).toHaveBeenCalledExactlyOnceWith(
-      sanitizeStrReturn
+      sanitizeStrReturn,
     );
 
     expect(result.success).toBe(true);
@@ -65,27 +65,27 @@ describe("make ValidatedTodo function (tests units)", () => {
 
     expect(result.todo).toStrictEqual(
       expect.objectContaining({
-        description: "description",
-        id: "any-id",
-      })
+        description: 'description',
+        id: 'any-id',
+      }),
     );
     expect(result.todo).toStrictEqual({
-      id: "any-id",
-      description: "description",
+      id: 'any-id',
+      description: 'description',
       createdAt: expect.any(String),
     });
     expect(result.todo.createdAt).toMatch(
-      /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.\d{3}Z$/
+      /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.\d{3}Z$/,
     );
   });
 
-  test("should call makeNewTodo if validateTodoDescription return success", () => {
+  test('should call makeNewTodo if validateTodoDescription return success', () => {
     const { description } = makeMocks();
     const result = makeValidatedTodo(description) as ValidTodo;
     expect(result.success).toBe(true);
   });
 
-  test("should call return validatedDescription.error if value fails", () => {
+  test('should call return validatedDescription.error if value fails', () => {
     const { description, validateTodoDescriptionSpy, errors } = makeMocks();
     validateTodoDescriptionSpy.mockReturnValue({ errors, success: false });
     const result = makeValidatedTodo(description) as InvalidTodo;

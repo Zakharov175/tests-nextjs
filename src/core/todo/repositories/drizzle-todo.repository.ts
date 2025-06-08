@@ -1,8 +1,8 @@
-import { DrizzleDatabase } from "@/app/db/drizzle";
-import { Todo, TodoPresenter } from "../schemas/todo.contract";
-import { TodoRepository } from "./todo.contract.repository";
-import { todoTable } from "../schemas/drizzle-todo-table.schema";
-import { eq } from "drizzle-orm";
+import { DrizzleDatabase } from '@/app/db/drizzle';
+import { Todo, TodoPresenter } from '../schemas/todo.contract';
+import { TodoRepository } from './todo.contract.repository';
+import { todoTable } from '../schemas/drizzle-todo-table.schema';
+import { eq } from 'drizzle-orm';
 
 export class DrizzleTodoRepository implements TodoRepository {
   private readonly db: DrizzleDatabase;
@@ -22,13 +22,13 @@ export class DrizzleTodoRepository implements TodoRepository {
       where: (todoTable, { eq, or }) =>
         or(
           eq(todoTable.id, todoData.id),
-          eq(todoTable.description, todoData.description)
+          eq(todoTable.description, todoData.description),
         ),
     });
     if (!!existingTodo) {
       return {
         success: false,
-        errors: ["A todo with same description or Id already exists"],
+        errors: ['A todo with same description or Id already exists'],
       };
     }
     await this.db.insert(todoTable).values(todoData);
@@ -44,7 +44,7 @@ export class DrizzleTodoRepository implements TodoRepository {
     if (!existingTodo) {
       return {
         success: false,
-        errors: ["Todo not exist"],
+        errors: ['Todo not exist'],
       };
     }
 

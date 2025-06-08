@@ -1,4 +1,4 @@
-import { Todo } from "../schemas/todo.contract";
+import { Todo } from '../schemas/todo.contract';
 
 export const makeNewTodo = (description: string): Todo => {
   return {
@@ -7,9 +7,3 @@ export const makeNewTodo = (description: string): Todo => {
     createdAt: new Date().toISOString(),
   };
 };
-
-
-
-
-
-
